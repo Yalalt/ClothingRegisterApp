@@ -1,4 +1,3 @@
-// src/views/EditMenuView.tsx
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -6,13 +5,21 @@ import { useNavigation } from '@react-navigation/native';
 const EditMenuView = () => {
   const navigation = useNavigation();
 
+  const handleNavigation = (screenName: string) => {
+    if (screenName === 'AddProductView' || screenName === 'EditProductView') {
+      navigation.navigate(screenName);
+    } else {
+      console.error("Invalid screen name");
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Button title="Back" onPress={() => navigation.goBack()} />
       <Text style={styles.title}>Edit</Text>
       <View style={styles.buttonsContainer}>
-        <Button title="Add New Product" onPress={() => navigation.navigate('AddProductView')} />
-        <Button title="Edit Product" onPress={() => navigation.navigate('EditProductView')} />
+        <Button title="Add New Product" onPress={() => handleNavigation('AddProductView')} />
+        <Button title="Edit Product" onPress={() => handleNavigation('EditProductView')} />
       </View>
     </View>
   );

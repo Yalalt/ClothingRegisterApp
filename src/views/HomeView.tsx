@@ -1,14 +1,14 @@
-// src/views/HomeView.tsx
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, TextInput, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import { Product } from '../types/types';
 
 const HomeView = () => {
   const navigation = useNavigation();
-  const [searchText, setSearchText] = useState('');
-  const [imageUri, setImageUri] = useState('');
+  const [searchText, setSearchText] = useState<string>('');
+  const [imageUri, setImageUri] = useState<string>('');
 
   const documentDirectory = FileSystem.documentDirectory;
 
@@ -24,7 +24,7 @@ const HomeView = () => {
       const { uri } = result.assets[0];
       setImageUri(uri);
       const fileName = uri.split('/').pop();
-      if (documentDirectory) {
+      if(documentDirectory) {
         const newPath = `${documentDirectory}/${fileName}`;
         await FileSystem.moveAsync({ from: uri, to: newPath });
         setImageUri(newPath);
@@ -42,7 +42,7 @@ const HomeView = () => {
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
-        <Button title='Edit' onPress={() => navigation.navigate('EditMenuView')} />
+        <Button title="Edit" onPress={() => navigation.navigate('EditMenuView')} />
         <Text>{getCurrentDate()}</Text>
       </View>
       <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
@@ -57,22 +57,19 @@ const HomeView = () => {
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
-          placeholder='Search products...'
+          placeholder="Search products..."
           value={searchText}
           onChangeText={setSearchText}
         />
-        <Button title='Search' onPress={() => navigation.navigate('ProductsSelectionView', { searchText })} />
+        <Button title="Search" onPress={() => navigation.navigate('ProductsSelectionView', { searchText })} />
       </View>
       <View style={styles.buttonsContainer}>
-        <Button title='Shirts' onPress={() => navigation.navigate('ProductsSelectionView', { type: 'shirts' })} />
-        <Button title='Pants' onPress={() => navigation.navigate('ProductsSelectionView', { type: 'pants' })} />
-        <Button
-          title='Outer Clothes'
-          onPress={() => navigation.navigate('ProductsSelectionView', { type: 'outer_clothes' })}
-        />
-        <Button title='Hats' onPress={() => navigation.navigate('ProductsSelectionView', { type: 'hats' })} />
-        <Button title='Shoes' onPress={() => navigation.navigate('ProductsSelectionView', { type: 'shoes' })} />
-        <Button title='Others' onPress={() => navigation.navigate('ProductsSelectionView', { type: 'others' })} />
+        <Button title="Shirts" onPress={() => navigation.navigate('ProductsSelectionView', { type: 'shirts' })} />
+        <Button title="Pants" onPress={() => navigation.navigate('ProductsSelectionView', { type: 'pants' })} />
+        <Button title="Outer Clothes" onPress={() => navigation.navigate('ProductsSelectionView', { type: 'outer_clothes' })} />
+        <Button title="Hats" onPress={() => navigation.navigate('ProductsSelectionView', { type: 'hats' })} />
+        <Button title="Shoes" onPress={() => navigation.navigate('ProductsSelectionView', { type: 'shoes' })} />
+        <Button title="Others" onPress={() => navigation.navigate('ProductsSelectionView', { type: 'others' })} />
       </View>
     </View>
   );

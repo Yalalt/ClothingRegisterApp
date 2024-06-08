@@ -1,20 +1,20 @@
-// src/views/AddProductView.tsx
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, TextInput, Image, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import db from '../database';
+import { Product } from '../types/types';
 
 const AddProductView = () => {
   const navigation = useNavigation();
-  const [productType, setProductType] = useState('');
-  const [name, setName] = useState('');
-  const [code, setCode] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [price, setPrice] = useState('');
-  const [totalPrice, setTotalPrice] = useState('');
-  const [imageUri, setImageUri] = useState('');
+  const [productType, setProductType] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [code, setCode] = useState<string>('');
+  const [quantity, setQuantity] = useState<string>('');
+  const [price, setPrice] = useState<string>('');
+  const [totalPrice, setTotalPrice] = useState<string>('');
+  const [imageUri, setImageUri] = useState<string>('');
 
   const documentDirectory = FileSystem.documentDirectory;
 
@@ -30,6 +30,7 @@ const AddProductView = () => {
       const { uri } = result.assets[0];
       setImageUri(uri);
       const fileName = uri.split('/').pop();
+
       if(documentDirectory) {
         const newPath = `${documentDirectory}/${fileName}`;
         await FileSystem.moveAsync({ from: uri, to: newPath });

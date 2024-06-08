@@ -1,20 +1,20 @@
-// src/views/ProductsSelectionView.tsx
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, FlatList, Alert, CheckBox } from 'react-native';
+import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import db from '../database';
+import { Product } from '../types/types';
 
 const ProductsSelectionView = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const [products, setProducts] = useState([]);
-  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const { searchText, type } = route.params || {};
 
     let query = 'SELECT * FROM products';
-    const params = [];
+    const params: (string | number)[] = [];
 
     if (searchText) {
       query += ' WHERE name LIKE ? OR code LIKE ?';
@@ -39,7 +39,7 @@ const ProductsSelectionView = () => {
     });
   }, [route.params]);
 
-  const handleSelectProduct = (product) => {
+  const handleSelectProduct = (product: Product) => {
     setSelectedProducts((prevSelected) =>
       prevSelected.includes(product)
         ? prevSelected.filter((p) => p.id !== product.id)

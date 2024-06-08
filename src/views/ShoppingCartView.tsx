@@ -1,23 +1,23 @@
-// src/views/ShoppingCartView.tsx
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, FlatList, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import db from '../database';
+import { Product } from '../types/types';
 
 const ShoppingCartView = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { selectedProducts } = route.params || [];
-  const [products, setProducts] = useState(selectedProducts);
+  const [products, setProducts] = useState<Product[]>(selectedProducts);
 
-  const handleQuantityChange = (index, quantity) => {
+  const handleQuantityChange = (index: number, quantity: number) => {
     const newProducts = [...products];
     newProducts[index].quantity = quantity;
     newProducts[index].total_price = quantity * newProducts[index].price;
     setProducts(newProducts);
   };
 
-  const handleDeleteProduct = (index) => {
+  const handleDeleteProduct = (index: number) => {
     const newProducts = products.filter((_, i) => i !== index);
     setProducts(newProducts);
   };
